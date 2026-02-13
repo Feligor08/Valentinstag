@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasmins Liebesbrief</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=EB+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #f4ecd8;
+            --ink: #2c3e50;
+            --seal-red: #a93226;
+            --accent: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #2c3e50;
+            background-image: radial-gradient(#34495e 2px, transparent 2px);
+            background-size: 30px 30px;
+            font-family: 'EB Garamond', serif;
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .envelope {
+            width: 100%;
+            max-width: 450px;
+            background: var(--paper);
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            position: relative;
+            transform: rotate(-1deg);
+            transition: all 1s;
+        }
+
+        .names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--seal-red);
+            margin: 20px 0;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .content {
+            line-height: 1.6;
+            font-size: 1.2rem;
+            text-align: justify;
+            margin-top: 20px;
+        }
+
+        .counter {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            margin: 30px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 20px;
+        }
+
+        .count-val {
+            font-weight: bold;
+            color: var(--seal-red);
+        }
+
+        .btn {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid var(--seal-red);
+            color: var(--seal-red);
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--seal-red);
+            color: white;
+        }
+
+        .shimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        #big-yes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 62, 80, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--paper);
+            opacity: 0;
+            pointer-events: none;
+            transition: 1.5s;
+            z-index: 100;
+        }
+
+        #big-yes.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #big-yes h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="big-yes">
+        <h2>JA! Von ganzem Herzen!</h2>
+        <p>Ewig dein. Ewig mein. Ewig uns.</p>
+    </div>
+
+    <div class="envelope" id="letter">
+        <div class="shimmer"></div>
+        <div id="intro-animation" style="text-align: center; padding: 20px;">
+            <div style="font-size: 4rem;">💌</div>
+            <p style="font-style: italic;">Für Jasmin...</p>
+        </div>
+
+        <div id="main-content" style="display: none;">
+            <div class="names">Jasmin & Felix</div>
+            <div class="content">
+                Mein Liebling,<br><br>
+                seit dem 01.01.2026 schreiben wir unsere Geschichte. Jedes Wort, jedes Lächeln und jeder gemeinsame
+                Moment ist ein wertvoller Schatz.
+            </div>
+
+            <div class="counter">
+                Seit <span id="days" class="count-val">0</span> Tagen, <span id="hours" class="count-val">0</span>
+                Stunden und <span id="minutes" class="count-val">0</span> Minuten unzertrennlich.
+            </div>
+
+            <div style="font-style: italic; text-align: center; margin: 20px 0;">
+                "Dein Mut an jenem Tag... 99,9%"
+            </div>
+
+            <button class="btn" onclick="showYes()">Meine Antwort...</button>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('intro-animation').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            setTimeout(() => {
+                document.querySelector('.names').style.opacity = '1';
+                document.getElementById('letter').style.transform = 'rotate(0deg)';
+            }, 100);
+        }, 2000);
+
+        const start = new Date('2026-01-01');
+        setInterval(() => {
+            const diff = new Date() - start;
+            document.getElementById('days').innerText = Math.floor(diff / 8.64e7);
+            document.getElementById('hours').innerText = Math.floor((diff / 3.6e6) % 24);
+            document.getElementById('minutes').innerText = Math.floor((diff / 6e4) % 60);
+        }, 1000);
+
+        function showYes() {
+            document.getElementById('big-yes').classList.add('show');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasmins Love-App Galerie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0f2f5;
+            --primary: #FFD1DC;
+            --accent: #D4AF37;
+            --dark: #2d3436;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #636e72;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .preview {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .preview-original {
+            background: #FFFDD0;
+            color: #FFD1DC;
+        }
+
+        .preview-starry {
+            background: #0A192F;
+            color: #FFD700;
+        }
+
+        .preview-boho {
+            background: #F5F5DC;
+            color: #B2AC88;
+        }
+
+        .content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: #636e72;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            padding: 15px 25px 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+        }
+
+        .btn-view {
+            background: var(--bg);
+            color: var(--dark);
+        }
+
+        .btn-view:hover {
+            background: #dfe6e9;
+        }
+
+        .btn-copy {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #b8932e;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            background: #2d3436;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Jasmins Liebes-Gaben</h1>
+        <p>Wähle ein Design für den perfekten Moment</p>
+    </header>
+
+    <div class="gallery">
+        <!-- Original -->
+        <div class="card">
+            <div class="preview preview-original">🌸</div>
+            <div class="content">
+                <h3>Klassische Romantik</h3>
+                <p class="description">Das originale Design in Rosa & Gold. Süß, verspielt und voller Liebe.</p>
+            </div>
+            <div class="actions">
+                <a href="design-original.html" class="btn btn-view" target="_blank">Vorschau</a>
+                <button class="btn btn-copy" onclick="copyCode('design-original.html')">Code kopieren</button>
+            </div>
+        </div>
+
+        <!-- Starry -->
+        <div class="card">
+            <div class="preview preview-starry">✨</div>
+            <div class="content">
+                <h3>Sternennacht</h3>
+                <p class="description">Ein magisches, dunkles Design mit funkelnden Sternen und goldenen Akzenten.</p>
+            </div>
+            <div class="actions">
+                <a href="design-starry.html" class="btn btn-view" target="_blank">Vorschau</a>
+                <button class="btn btn-copy" onclick="copyCode('design-starry.html')">Code kopieren</button>
+            </div>
+        </div>
+
+        <!-- Boho -->
+        <div class="card">
+            <div class="preview preview-boho">🌿</div>
+            <div class="content">
+                <h3>Boho-Traum</h3>
+                <p class="description">Natürliche Töne, dezente Eleganz und eine beruhigende Atmosphäre.</p>
+            </div>
+            <div class="actions">
+                <a href="design-boho.html" class="btn btn-view" target="_blank">Vorschau</a>
+                <button class="btn btn-copy" onclick="copyCode('design-boho.html')">Code kopieren</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Code in die Zwischenablage kopiert!</div>
+
+    <script>
+        async function copyCode(filename) {
+            try {
+                const response = await fetch(filename);
+                const code = await response.text();
+                await navigator.clipboard.writeText(code);
+                showToast();
+            } catch (err) {
+                console.error('Fehler beim Kopieren:', err);
+                alert('Fehler beim Kopieren des Codes.');
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+    </script>
+</body>
+
+</html>

@@ -4,20 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jasmin & Felix - Unsere Geschichte</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Jasmins Love-App Master Hub</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Dancing+Script:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&family=Dancing+Script:wght@700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --marshmallow-rosa: #FFD1DC;
-            --creme-weiss: #FFFDD0;
-            --sanftes-gold: #D4AF37;
-            --gold-hell: #F4D03F;
-            --text-color: #5D4037;
-            --heart-red: #FF4B6E;
+            --primary: #FFD1DC;
+            --secondary: #FFFDD0;
+            --accent: #D4AF37;
+            --text: #2d3436;
+            --glass: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -27,452 +24,258 @@
         }
 
         body {
-            background-color: var(--creme-weiss);
             font-family: 'Outfit', sans-serif;
-            color: var(--text-color);
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             min-height: 100vh;
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
             text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease-out;
         }
 
-        #app {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            opacity: 0;
-            animation: fadeIn 1s forwards ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Hero Section */
-        .intro-container {
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        canvas#morphCanvas {
-            width: 300px;
-            height: 300px;
-        }
-
-        #names-display {
+        h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            color: var(--sanftes-gold);
-            position: absolute;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        #names-display.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Countdown */
-        .date-text {
-            font-weight: 300;
+        .subtitle {
             font-size: 1.2rem;
-            margin-bottom: -10px;
-            opacity: 0;
+            opacity: 0.8;
+            letter-spacing: 1px;
         }
 
-        .counter-container {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-around;
-            border: 2px solid var(--marshmallow-rosa);
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            perspective: 1000px;
         }
 
-        .counter-item {
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
-        .counter-value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--heart-red);
+        .card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
         }
 
-        .counter-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: float 3s infinite ease-in-out;
         }
 
-        /* Courage Indicator */
-        .courage-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: rgba(255, 209, 220, 0.2);
-            padding: 20px;
-            border-radius: 20px;
-        }
+        @keyframes float {
 
-        .heart-pulse {
-            font-size: 3rem;
-            animation: pulse 1.5s infinite;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
+            0%,
+            100% {
+                transform: translateY(0);
             }
 
             50% {
-                transform: scale(1.15);
-            }
-
-            100% {
-                transform: scale(1);
+                transform: translateY(-10px);
             }
         }
 
-        .courage-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            text-align: left;
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
         }
 
-        /* Cloud */
-        .cloud-container {
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+        p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            margin-bottom: 25px;
         }
 
-        .cloud-container:hover {
-            transform: translateY(-10px);
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .cloud-svg {
-            width: 120px;
-            filter: drop-shadow(0 5px 15px rgba(255, 209, 220, 0.5));
-        }
-
-        /* Button */
-        .yes-button {
-            background: linear-gradient(135deg, var(--sanftes-gold), var(--gold-hell));
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
+        .btn {
+            padding: 12px 20px;
+            border-radius: 15px;
+            text-decoration: none;
             font-weight: 600;
-            border-radius: 50px;
+            transition: 0.3s;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            border: none;
+            font-size: 0.9rem;
         }
 
-        .yes-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4);
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .yes-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background: #b8932e;
         }
 
-        @keyframes shine {
-            0% {
-                left: -50%;
+        .btn-secondary {
+            background: white;
+            color: var(--text);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
             }
 
-            100% {
-                left: 150%;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* Overlay */
-        #confetti-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        #big-yes {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            font-family: 'Dancing Script', cursive;
-            font-size: 5rem;
-            color: var(--sanftes-gold);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(255, 255, 255, 1);
-            z-index: 1001;
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 90%;
+        footer {
+            margin-top: 80px;
             text-align: center;
+            opacity: 0.6;
+            font-size: 0.8rem;
         }
 
-        #big-yes.show {
-            transform: translate(-50%, -50%) scale(1);
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--text);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            transform: translateX(150%);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast.show {
+            transform: translateX(0);
         }
     </style>
 </head>
 
 <body>
-    <canvas id="confetti-layer"></canvas>
-    <div id="big-yes">JA! Von ganzem Herzen!</div>
+    <header>
+        <h1>Felix & Jasmin</h1>
+        <p class="subtitle">Wähle den Stil für eure Geschichte</p>
+    </header>
 
-    <div id="app">
-        <!-- Eröffnung -->
-        <div class="intro-section">
-            <div class="intro-container">
-                <canvas id="morphCanvas"></canvas>
-                <div id="names-display">Jasmin & Felix</div>
+    <div class="gallery">
+        <!-- Variant 1 -->
+        <div class="card">
+            <div>
+                <span class="icon">🌸</span>
+                <h3>Originale Romantik</h3>
+                <p>Das klassische Design in Marshmallow-Rosa und Creme. Süß, verspielt und perfekt für euer
+                    Zusammenkommen.</p>
             </div>
-            <p id="start-date" class="date-text">Seit dem 01.01.2026</p>
-        </div>
-
-        <!-- Live-Zähler -->
-        <div class="counter-container">
-            <div class="counter-item">
-                <span id="days" class="counter-value">00</span>
-                <span class="counter-label">Tage</span>
-            </div>
-            <div class="counter-item">
-                <span id="hours" class="counter-value">00</span>
-                <span class="counter-label">Std</span>
-            </div>
-            <div class="counter-item">
-                <span id="minutes" class="counter-value">00</span>
-                <span class="counter-label">Min</span>
-            </div>
-            <div class="counter-item">
-                <span id="seconds" class="counter-value">00</span>
-                <span class="counter-label">Sek</span>
+            <div class="btn-group">
+                <a href="design-original.html" class="btn btn-primary" target="_blank">Vorschau öffnen</a>
+                <button class="btn btn-secondary" onclick="copyCode('design-original.html')">Code kopieren</button>
             </div>
         </div>
 
-        <!-- Mut-Anzeige -->
-        <div class="courage-section">
-            <div class="heart-pulse">❤️</div>
-            <div class="courage-text">
-                <strong>Dein Mut-Level an jenem Tag: 99,9%</strong><br>
-                Ich habe dein "Ja" schon in deinem Lächeln gehört, bevor du ein Wort sagen konntest.
+        <!-- Variant 2 -->
+        <div class="card">
+            <div>
+                <span class="icon">✨</span>
+                <h3>Sternennacht</h3>
+                <p>Ein magisches, tiefblaues Design mit funkelnden Sternen. Für Momente, die hell wie das Universum
+                    leuchten.</p>
+            </div>
+            <div class="btn-group">
+                <a href="design-starry.html" class="btn btn-primary" target="_blank">Vorschau öffnen</a>
+                <button class="btn btn-secondary" onclick="copyCode('design-starry.html')">Code kopieren</button>
             </div>
         </div>
 
-        <!-- Interaktive Wolke -->
-        <div class="cloud-container" id="cloud">
-            <svg class="cloud-svg" viewBox="0 0 24 24" fill="white">
-                <path
-                    d="M17.5,19c-3.037,0-5.5-2.463-5.5-5.5c0-0.106,0.005-0.21,0.014-0.313C12.008,13.125,12,13.064,12,13 c0-2.209,1.791-4,4-4c1.187,0,2.253,0.518,2.986,1.341C19.467,10.13,19.967,10,20.5,10c1.933,0,3.5,1.567,3.5,3.5 C24,15.433,22.433,17,20.5,17h-0.342C19.559,18.156,18.604,19,17.5,19z M7,17c-2.761,0-5-2.239-5-5c0-0.136,0.013-0.269,0.026-0.402 C0.825,10.686,0,9.189,0,7.5C0,4.462,2.462,2,5.5,2c1.47,0,2.801,0.579,3.784,1.524C10.081,3.195,11.002,3,12,3c2.761,0,5,2.239,5,5 c0,0.136-0.013,0.269-0.026,0.402C18.175,9.314,19,10.811,19,12.5c0,3.038-2.462,5.5-5.5,5.5H7z" />
-            </svg>
-            <p style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">Klick mich!</p>
+        <!-- Variant 3 -->
+        <div class="card">
+            <div>
+                <span class="icon">🌿</span>
+                <h3>Boho-Traum</h3>
+                <p>Natürliche Töne und puristische Eleganz. Ein beruhigendes Design, das Jasmins inneres Leuchten
+                    betont.</p>
+            </div>
+            <div class="btn-group">
+                <a href="design-boho.html" class="btn btn-primary" target="_blank">Vorschau öffnen</a>
+                <button class="btn btn-secondary" onclick="copyCode('design-boho.html')">Code kopieren</button>
+            </div>
         </div>
 
-        <!-- Button -->
-        <button class="yes-button" id="final-btn">Was ich geantwortet hätte...</button>
+        <!-- Variant 4 -->
+        <div class="card">
+            <div>
+                <span class="icon">💌</span>
+                <h3>Liebesbriefe</h3>
+                <p>Ein Vintage-Stil auf antikem Papier. Jedes Wort zählt in diesem zeitlosen Liebesgeständnis.</p>
+            </div>
+            <div class="btn-group">
+                <a href="design-letters.html" class="btn btn-primary" target="_blank">Vorschau öffnen</a>
+                <button class="btn btn-secondary" onclick="copyCode('design-letters.html')">Code kopieren</button>
+            </div>
+        </div>
     </div>
 
+    <div id="toast" class="toast">✨ Code erfolgreich kopiert!</div>
+
+    <footer>
+        &copy; 2026 Felix für Jasmin – Erstellt mit Liebe
+    </footer>
+
     <script>
-        const morphCanvas = document.getElementById('morphCanvas');
-        const ctx = morphCanvas.getContext('2d');
-        const namesDisplay = document.getElementById('names-display');
-        const startDateEl = document.getElementById('start-date');
-        const finalBtn = document.getElementById('final-btn');
-        const bigYes = document.getElementById('big-yes');
-        const cloud = document.getElementById('cloud');
-        const confettiCanvas = document.getElementById('confetti-layer');
-        const confettiCtx = confettiCanvas.getContext('2d');
+        async function copyCode(filename) {
+            try {
+                const response = await fetch(filename);
+                const code = await response.text();
+                await navigator.clipboard.writeText(code);
 
-        morphCanvas.width = 300;
-        morphCanvas.height = 300;
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
-
-        // --- PART 1: MORPHING ANIMATION (KUSS -> NAMEN) ---
-        let morphProgress = 0;
-        let animationFrame;
-
-        function drawKiss(progress) {
-            ctx.clearRect(0, 0, 300, 300);
-            ctx.strokeStyle = '#D4AF37';
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-
-            // Linke Person (Kopf)
-            ctx.beginPath();
-            ctx.arc(120, 150, 40 * (1 - progress), 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Rechte Person (Kopf)
-            ctx.beginPath();
-            ctx.arc(180, 150, 40 * (1 - progress), 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Kuss-Linien (Annäherung)
-            ctx.beginPath();
-            ctx.moveTo(140 + (10 * progress), 155);
-            ctx.quadraticCurveTo(150, 160, 160 - (10 * progress), 155);
-            ctx.stroke();
-
-            if (progress > 0.8) {
-                morphCanvas.style.opacity = (1 - (progress - 0.8) * 5);
-                namesDisplay.classList.add('show');
-                startDateEl.style.opacity = (progress - 0.8) * 5;
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            } catch (err) {
+                console.error('Fehler:', err);
+                alert('Fehler beim Kopieren!');
             }
         }
-
-        function animateMorph() {
-            morphProgress += 0.01;
-            drawKiss(morphProgress);
-            if (morphProgress < 1) {
-                requestAnimationFrame(animateMorph);
-            } else {
-                morphCanvas.style.display = 'none';
-            }
-        }
-
-        setTimeout(animateMorph, 1000); // Start nach 1 Sekunde
-
-        // --- PART 2: LIVE COUNTER ---
-        const togetherDate = new Date('2026-01-01T00:00:00');
-
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - togetherDate;
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-        }
-
-        setInterval(updateCounter, 1000);
-        updateCounter();
-
-        // --- PART 3: INTERAKTIVE WOLKE & HERZ-PARTIKEL ---
-        let particles = [];
-        const messages = ['Du bist mein Lieblingsmensch', 'Beste Fast-Verlobte', 'Ich liebe dich!', 'Für immer wir'];
-
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 10 + 5;
-                this.speedX = Math.random() * 3 - 1.5;
-                this.speedY = Math.random() * 3 + 1;
-                this.opacity = 1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.opacity -= 0.01;
-            }
-            draw() {
-                confettiCtx.font = this.size + 'px serif';
-                confettiCtx.globalAlpha = this.opacity;
-                confettiCtx.fillText('❤️', this.x, this.y);
-            }
-        }
-
-        cloud.addEventListener('click', (e) => {
-            const rect = cloud.getBoundingClientRect();
-            for (let i = 0; i < 15; i++) {
-                particles.push(new Particle(rect.left + rect.width / 2, rect.bottom));
-            }
-
-            // Zufällige Botschaft
-            const msg = document.createElement('div');
-            msg.innerText = messages[Math.floor(Math.random() * messages.length)];
-            msg.style.position = 'absolute';
-            msg.style.top = (rect.top - 30) + 'px';
-            msg.style.left = (rect.left) + 'px';
-            msg.style.color = 'var(--sanftes-gold)';
-            msg.style.transition = 'all 2s';
-            msg.style.pointerEvents = 'none';
-            document.body.appendChild(msg);
-
-            setTimeout(() => {
-                msg.style.transform = 'translateY(-50px)';
-                msg.style.opacity = '0';
-                setTimeout(() => msg.remove(), 2000);
-            }, 10);
-        });
-
-        // --- PART 4: CONFETTI & JA-BUTTON ---
-        let isConfettiActive = false;
-
-        function createConfetti() {
-            for (let i = 0; i < 5; i++) {
-                particles.push(new Particle(Math.random() * innerWidth, -20));
-            }
-        }
-
-        finalBtn.addEventListener('click', () => {
-            isConfettiActive = true;
-            bigYes.classList.add('show');
-            finalBtn.style.display = 'none';
-        });
-
-        function animateParticles() {
-            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            if (isConfettiActive) createConfetti();
-
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                if (particles[i].opacity <= 0) {
-                    particles.splice(i, 1);
-                    i--;
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        });
     </script>
 </body>
 
